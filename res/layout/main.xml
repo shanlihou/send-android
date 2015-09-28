@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent"
+                android:background="#000000"
+        >
+    <ListView android:layout_width="fill_parent"
+              android:layout_height="fill_parent"
+              android:id="@+id/contact_view"
+              android:scrollbars="none"
+
+            ></ListView>
+    <com.example.send.MyLetterListView
+            android:id="@+id/letter_view"
+            android:layout_width="40px"
+            android:layout_height="fill_parent"
+            android:layout_alignParentRight="true"
+            />
+</RelativeLayout>
+
