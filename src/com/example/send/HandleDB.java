@@ -17,27 +17,33 @@ public class HandleDB extends SQLiteOpenHelper {
 
     private final static int DATABASE_VERSION = 1;
 
-    private final static String TABLE_NAME_MUSIC = "send";
+    private final static String TABLE_CONTACTS_INFO = "send_contact_info";
 
-    public final static String FIELD_ID = "_id";
+    public final static String FIELD_ID = "id";
 
-    public final static String FIELD_KEY = "key";
+    public final static String FIELD_LASTNAME = "last_name";
 
-    public final static String FIELD_VALUE = "value";
+    public final static String FIELD_FIRSTNAME = "first_name";
+
+    public final static String FIELD_PHONENUMBER = "phone_number";
+
+    public final static String FIELD_DISPLAYNAME = "display_name";
     public HandleDB(Context context){
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String sql = "Create table " + TABLE_NAME_MUSIC + "(" + FIELD_ID + " integer primary key autoincrement,"
-                + FIELD_KEY + " text, " + FIELD_VALUE + " text );";
+        String sql = "Create table " + TABLE_CONTACTS_INFO + "("
+                + FIELD_ID + " long primary key, "
+                + FIELD_DISPLAYNAME + " text, "
+                + FIELD_PHONENUMBER + " text );";
         db.execSQL(sql);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        String sql = " DROP TABLE IF EXISTS " + TABLE_NAME_MUSIC;
+        String sql = " DROP TABLE IF EXISTS " + TABLE_CONTACTS_INFO;
         db.execSQL(sql);
         onCreate(db);
     }
@@ -46,7 +52,7 @@ public class HandleDB extends SQLiteOpenHelper {
         SQLiteDatabase db;
         Cursor cursor;
         db = this.getReadableDatabase();
-        cursor = db.query(TABLE_NAME_MUSIC, null, null, null, null, null, null);
+        cursor = db.query(TABLE_CONTACTS_INFO, null, null, null, null, null, null);
         return cursor;
     }
 
@@ -54,30 +60,30 @@ public class HandleDB extends SQLiteOpenHelper {
         String ret = null;
         SQLiteDatabase db;
         db = this.getReadableDatabase();
-        String sql = "select * from " + TABLE_NAME_MUSIC + " where " + FIELD_KEY + " = ?";
+        String sql = "select * from " + TABLE_CONTACTS_INFO + " where " + FIELD_ID + " = ?";
         Cursor cursor = db.rawQuery(sql, new String[]{key});
         while(cursor.moveToNext()){
-            ret = cursor.getString(cursor.getColumnIndex(FIELD_VALUE));
+            ret = cursor.getString(cursor.getColumnIndex(FIELD_PHONENUMBER));
         }
         return ret;
     }
 
     public long insert(String key, String value) {
         SQLiteDatabase db = this.getWritableDatabase();
-        return db.insert(TABLE_NAME_MUSIC, null, createValues(key, value));
+        return db.insert(TABLE_CONTACTS_INFO, null, createValues(key, value));
     }
 
     public void delete(String location) {
         SQLiteDatabase db = this.getWritableDatabase();
-        String where = FIELD_KEY + "=?";
+        String where = FIELD_ID + "=?";
         String[] whereValue = {
                 location
         };
-        db.delete(TABLE_NAME_MUSIC, where, whereValue);
+        db.delete(TABLE_CONTACTS_INFO, where, whereValue);
     }
     public void deleteAll(int id){
         SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(TABLE_NAME_MUSIC, null, null);
+        db.delete(TABLE_CONTACTS_INFO, null, null);
     }
 
 
@@ -96,8 +102,8 @@ public class HandleDB extends SQLiteOpenHelper {
 
     private ContentValues createValues(String title, String location) {
         ContentValues cv = new ContentValues();
-        cv.put(FIELD_KEY, title);
-        cv.put(FIELD_VALUE, location);
+        cv.put(FIELD_DISPLAYNAME, title);
+        cv.put(FIELD_PHONENUMBER, location);
         return cv;
     }
 

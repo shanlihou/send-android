@@ -11,6 +11,12 @@
               android:scrollbars="none"
 
             ></ListView>
+    <TextView android:layout_width="fill_parent" android:layout_height="wrap_content"
+              android:id="@+id/cur_top_letter"
+              android:background="#333333"
+              android:paddingLeft="10dip"
+              android:textColor="#FFFFFF"
+            />
     <com.example.send.MyLetterListView
             android:id="@+id/letter_view"
             android:layout_width="40px"

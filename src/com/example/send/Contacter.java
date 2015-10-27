@@ -8,6 +8,7 @@ public class Contacter {
     private String phoneNumber;
     private String userName;
     private String sortKey;
+    private String contactId;
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
@@ -19,6 +20,10 @@ public class Contacter {
 
     public void setSortKey(String sortKey) {
         this.sortKey = sortKey;
+    }
+
+    public void setContactId(String contactId) {
+        this.contactId = contactId;
     }
 
     public String getPhoneNumber() {
@@ -33,6 +38,8 @@ public class Contacter {
         return sortKey;
     }
 
-
+    public String getContactId() {
+        return contactId;
+    }
 }
 

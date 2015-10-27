@@ -23,12 +23,19 @@ public class HandleContact {
     private List<Contacter> contactList = null;
     private static int PHONES_NAME_INDEX = 0;
     private static int PHONES_NUMBER_INDEX = 1;
-    private static int PHONES_SORT_KEY = 3;
+    private static int PHONES_CONTACT_ID = 3;
+    private static int PHONES_SORT_KEY = 4;
 
     private Map<String, Integer> alphaIndex;
 
     private static final String[] PHONES_PROJECTION = new String[] {
-            ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME, ContactsContract.CommonDataKinds.Phone.NUMBER, ContactsContract.CommonDataKinds.Photo.PHOTO_ID, ContactsContract.CommonDataKinds.Phone.CONTACT_ID }; private HandleContact(){
+            ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME,
+            ContactsContract.CommonDataKinds.Phone.NUMBER,
+            ContactsContract.CommonDataKinds.Photo.PHOTO_ID,
+            ContactsContract.CommonDataKinds.Phone.CONTACT_ID,
+            ContactsContract.CommonDataKinds.Phone.SORT_KEY_PRIMARY
+    };
+    private HandleContact(){
     }
     private static HandleContact instance = new HandleContact();
     public static HandleContact getInstance(){
@@ -40,7 +47,10 @@ public class HandleContact {
     }
 
     public Contacter getContact(int index){
-        return contactList.get(index);
+        if (index >= 0 && index < contactList.size())
+            return contactList.get(index);
+        else
+            return null;
     }
 
     public void getContactList(Context context){
@@ -59,6 +69,8 @@ public class HandleContact {
 
                 contacter.setUserName(phoneCursor.getString(PHONES_NAME_INDEX));
                 Log.d("shanlihou", contacter.getUserName());
+
+                contacter.setContactId(phoneCursor.getString(PHONES_CONTACT_ID));
 
                 contacter.setSortKey(getSortKey(contacter.getUserName()));
                 Log.d("shanlihou", contacter.getSortKey());
@@ -102,6 +114,9 @@ public class HandleContact {
             char c = word.charAt(i);
             try{
                 String[] values = PinyinHelper.toHanyuPinyinStringArray(c, format);
+                if (values == null){
+                    continue;
+                }
                 Log.d("shanlihou", values.length + "");
                 Log.d("shanlihou", Arrays.toString(values));
                 retStr += values[0];
