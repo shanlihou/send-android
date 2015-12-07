@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+    <RelativeLayout android:id="@+id/rlSearchFrameDelete"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:gravity="center_vertical"
+            >
+
+        <EditText android:id="@+id/etSearch"
+                  android:layout_width="fill_parent"
+                  android:layout_height="wrap_content"
+                  android:singleLine="true"
+                  android:background="@drawable/search_frame"
+                  android:layout_marginRight="10dp"
+                  android:paddingLeft="32dp"
+                  android:textSize="12sp"
+                  android:hint="请输入文字..."/>
+
+        <ImageView android:id="@+id/ivDeleteText"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_alignParentRight="true"
+                   android:src="@drawable/delete"
+                   android:layout_centerInParent="true"
+                   android:paddingRight="20dp"
+                   android:visibility="gone"/>
+
+    </RelativeLayout>
+    <RelativeLayout android:layout_width="wrap_content" android:layout_height="wrap_content">
+        <ListView android:layout_width="fill_parent"
+                  android:layout_height="fill_parent"
+                  android:id="@+id/contact_view"
+                  android:scrollbars="none"
+
+                ></ListView>
+        <TextView android:layout_width="fill_parent" android:layout_height="wrap_content"
+                  android:id="@+id/cur_top_letter"
+                  android:background="#333333"
+                  android:paddingLeft="10dip"
+                  android:textColor="#FFFFFF"
+                />
+        <com.example.send.MyLetterListView
+                android:id="@+id/letter_view"
+                android:layout_width="40px"
+                android:layout_height="fill_parent"
+                android:layout_alignParentTop="true" android:layout_alignParentEnd="true"/>
+    </RelativeLayout>
+</LinearLayout>

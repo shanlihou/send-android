@@ -1,6 +1,8 @@
 package com.example.send;
 
 import android.content.Context;
+import android.text.Html;
+import android.text.Spanned;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,8 +45,9 @@ public class ContactAdapter extends BaseAdapter{
         }
 
         Contacter contacter = HandleContact.getInstance().getContact(i);
-        holder.name.setText(contacter.getUserName());
-        holder.number.setText(contacter.getPhoneNumber());
+        holder.name.setText(contacter.getSpanName());
+        holder.number.setText(contacter.getSpanNum());
+        //holder.number.setText(contacter.getPhoneNumber(0));
         String currentStr = HandleContact.getInstance().getAlpha(contacter.getSortKey());
         String previewStr = (i - 1) >= 0 ? HandleContact.getInstance().getAlpha(
                 HandleContact.getInstance().getContact(i - 1).getSortKey()) : " ";
@@ -60,7 +63,6 @@ public class ContactAdapter extends BaseAdapter{
         }
 
         //
-        Log.d("shanlihou", "get view" + i);
         return view;
     }
 

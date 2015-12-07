@@ -1,27 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
               android:layout_width="fill_parent"
               android:layout_height="fill_parent"
                 android:background="#000000"
         >
-    <ListView android:layout_width="fill_parent"
-              android:layout_height="fill_parent"
-              android:id="@+id/contact_view"
-              android:scrollbars="none"
-
-            ></ListView>
-    <TextView android:layout_width="fill_parent" android:layout_height="wrap_content"
-              android:id="@+id/cur_top_letter"
-              android:background="#333333"
-              android:paddingLeft="10dip"
-              android:textColor="#FFFFFF"
-            />
-    <com.example.send.MyLetterListView
-            android:id="@+id/letter_view"
-            android:layout_width="40px"
-            android:layout_height="fill_parent"
-            android:layout_alignParentRight="true"
-            />
-</RelativeLayout>
+    <ImageView
+            android:layout_width ="match_parent"
+            android:layout_height ="match_parent"
+            android:scaleType ="fitXY"
+            android:src ="@drawable/ancient"/>
+</LinearLayout>
 
