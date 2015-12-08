@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.PixelFormat;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -43,7 +44,7 @@ public class ContactsFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.contacts, container, false);
         mWindowManager = (WindowManager)mContext.getSystemService(Context.WINDOW_SERVICE);
-        init();
+        initOverlay();
         mTopLetter = (TextView)view.findViewById(R.id.cur_top_letter);
         mTopLetter.setText("A");
         mEditSearch = (EditText)view.findViewById(R.id.etSearch);
@@ -63,7 +64,6 @@ public class ContactsFragment extends Fragment{
                 View view2 = mContactView.getChildAt(1);
                 Contacter contacter1 = HandleContact.getInstance().getContact(i);
                 Contacter contacter2 = HandleContact.getInstance().getContact(i + 1);
-                Log.d("shanlihou", i + "");
                 if (view1 != null && contacter1 != null) {
                     String alpha1 = HandleContact.getInstance().getAlpha(contacter1.getSortKey());
                     mTopLetter.setText(alpha1);
@@ -71,7 +71,6 @@ public class ContactsFragment extends Fragment{
                         float high = view2.getY();
                         float hight = mTopLetter.getHeight();
                         String alpha2 = HandleContact.getInstance().getAlpha(contacter2.getSortKey());
-                        Log.d("shanlihou", alpha1 + " " + alpha2);
                         if (alpha1.compareTo(alpha2) != 0) {
                             if (high > hight) {
                                 mTopLetter.setY(0);
@@ -122,8 +121,24 @@ public class ContactsFragment extends Fragment{
             }
         };
         //registerContentObservers();
-        startService(new Intent(ContactsService.ACTION_NAME));
         return view;
+    }
+    private void initOverlay()
+    {
+        LayoutInflater inflater = LayoutInflater.from(mContext);
+        mOverlay = (TextView) inflater.inflate(R.layout.overlay, null);
+        WindowManager.LayoutParams lp =
+                new WindowManager.LayoutParams(
+                        120,
+                        120,
+                        100,
+                        0,
+                        WindowManager.LayoutParams.TYPE_APPLICATION,
+                        WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
+                                | WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                        PixelFormat.TRANSLUCENT);
+        mWindowManager.addView(mOverlay, lp);
+
     }
 
     private class LetterListViewListener implements
@@ -147,5 +162,9 @@ public class ContactsFragment extends Fragment{
         }
     }
 
-
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        mWindowManager.removeView(mOverlay);
+    }
 }

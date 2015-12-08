@@ -86,7 +86,7 @@ public class LoginActivity extends Activity{
                     case 0:
                         mBtLogin.setEnabled(true);
                         if (MainApplication.getInstance().getShared(SESSION_TOKEN) != null){
-                            Intent intent = new Intent(LoginActivity.this, MyActivity.class);
+                            Intent intent = new Intent(LoginActivity.this, TrueMainActivity.class);
                             startActivity(intent);
                             LoginActivity.this.finish();
                         }
@@ -102,7 +102,7 @@ public class LoginActivity extends Activity{
         mBtNotLoginContact.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(LoginActivity.this, ContactsActivity.class);
+                Intent intent = new Intent(LoginActivity.this, TrueMainActivity.class);
                 startActivity(intent);
             }
         });

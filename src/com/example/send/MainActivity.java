@@ -29,7 +29,7 @@ public class MainActivity extends Activity{
                     Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                     startActivity(intent);
                 }else{
-                    Intent intent = new Intent(MainActivity.this, MyActivity.class);
+                    Intent intent = new Intent(MainActivity.this, TrueMainActivity.class);
                     startActivity(intent);
                 }
                 finish();//结束本Activity

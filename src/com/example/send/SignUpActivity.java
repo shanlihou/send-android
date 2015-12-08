@@ -50,7 +50,7 @@ public class SignUpActivity extends Activity{
                 super.handleMessage(msg);
                 switch(msg.what){
                     case 0:
-                        Intent intent = new Intent(SignUpActivity.this, MyActivity.class);
+                        Intent intent = new Intent(SignUpActivity.this, TrueMainActivity.class);
                         startActivity(intent);
                         SignUpActivity.this.finish();
                         break;
