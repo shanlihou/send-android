@@ -1,8 +1,14 @@
 package com.example.send;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,21 +23,33 @@ import android.widget.TextView;
  * Created by root on 15-12-7.
  */
 public class ContactsFragment extends Fragment{
-    TextView mTopLetter = null;
-    EditText mEditSearch = null;
-    ListView mContactView = null;
-    ContactAdapter mContactAdapter = null;
+    private TextView mTopLetter = null;
+    private EditText mEditSearch = null;
+    private MyLetterListView myLetterListView;
+    private ListView mContactView = null;
+    private ContactAdapter mContactAdapter = null;
+    private Context mContext = null;
+    private WindowManager mWindowManager;
+    private Handler mHandler;
+    private TextView mOverlay;
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        mContext = activity;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.contacts, container, false);
-        windowManager = (WindowManager)this.getSystemService(Context.WINDOW_SERVICE);
+        mWindowManager = (WindowManager)mContext.getSystemService(Context.WINDOW_SERVICE);
         init();
         mTopLetter = (TextView)view.findViewById(R.id.cur_top_letter);
         mTopLetter.setText("A");
         mEditSearch = (EditText)view.findViewById(R.id.etSearch);
 
         mContactView = (ListView)view.findViewById(R.id.contact_view);
-        mContactAdapter = new ContactAdapter(this);
+        mContactAdapter = new ContactAdapter(mContext);
         mContactView.setAdapter(mContactAdapter);
         mContactView.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
@@ -92,7 +110,7 @@ public class ContactsFragment extends Fragment{
             }
         });
 
-        myLetterListView = (MyLetterListView)findViewById(R.id.letter_view);
+        myLetterListView = (MyLetterListView)view.findViewById(R.id.letter_view);
         myLetterListView.setOnTouchingLetterChangedListener(new LetterListViewListener());
 
         mTopLetter.setY(25);
@@ -107,4 +125,27 @@ public class ContactsFragment extends Fragment{
         startService(new Intent(ContactsService.ACTION_NAME));
         return view;
     }
+
+    private class LetterListViewListener implements
+            MyLetterListView.OnTouchingLetterChangedListener
+    {
+
+        @Override
+        public void onTouchingLetterChanged(final String s)
+        {
+            int pos = HandleContact.getInstance().getAlphaIndex(s);
+            if (pos != -1){
+                mContactView.setSelection(pos);
+                mOverlay.setText(s);
+                mOverlay.setVisibility(View.VISIBLE);
+            }
+        }
+
+        @Override
+        public void onTouchingLetterEnd() {
+            mOverlay.setVisibility(View.INVISIBLE);
+        }
+    }
+
+
 }
