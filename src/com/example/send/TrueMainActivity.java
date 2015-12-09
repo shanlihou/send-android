@@ -3,22 +3,26 @@ package com.example.send;
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.app.TabActivity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
+import android.widget.*;
 
 /**
  * Created by root on 15-12-7.
  */
-public class TrueMainActivity extends Activity implements View.OnClickListener{
+public class TrueMainActivity extends Activity{
     private ContactsFragment mFMContacts = null;
     private MyFragment mFMMine = null;
     private SharedPreferences mShared;
+    private TabHost mTabHost = null;
+    private Context mContext = null;
     private Button mShowContacts;
     private Button mShowMine;
 
@@ -26,11 +30,12 @@ public class TrueMainActivity extends Activity implements View.OnClickListener{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.true_main);
-        mShowContacts = (Button)findViewById(R.id.bt_show_contacts);
-        mShowMine = (Button)findViewById(R.id.bt_show_my);
+        mContext = this;
+        mTabHost = (TabHost)findViewById(android.R.id.tabhost);
+        mTabHost.setup();
+        mTabHost.addTab(mTabHost.newTabSpec("tab1").setIndicator(getMenuItem(R.drawable.ic_people_outline_black_18dp, "tab1")).setContent(R.id.tab1));
+        mTabHost.addTab(mTabHost.newTabSpec("tab2").setIndicator(getMenuItem(R.drawable.ic_people_black_18dp, "tab2")).setContent(R.id.tab2));
 
-        mShowContacts.setOnClickListener(this);
-        mShowMine.setOnClickListener(this);
         startService(new Intent(ContactsService.ACTION_NAME));
         init();
         setDefaultFragment();
@@ -41,7 +46,7 @@ public class TrueMainActivity extends Activity implements View.OnClickListener{
         FragmentManager fm = getFragmentManager();
         FragmentTransaction transaction = fm.beginTransaction();
         mFMContacts = new ContactsFragment();
-        transaction.replace(R.id.true_main_frame, mFMContacts);
+        transaction.replace(android.R.id.tabcontent, mFMContacts);
         transaction.commit();
     }
     private void init(){
@@ -61,26 +66,15 @@ public class TrueMainActivity extends Activity implements View.OnClickListener{
         }
     }
 
-    @Override
-    public void onClick(View v) {
-        FragmentManager fm = getFragmentManager();
-        FragmentTransaction transaction = fm.beginTransaction();
-        switch(v.getId()){
-            case R.id.bt_show_contacts:
-                if (mFMContacts == null){
-                    mFMContacts = new ContactsFragment();
-                }
-                transaction.replace(R.id.true_main_frame, mFMContacts);
-                break;
-            case R.id.bt_show_my:
-                if (mFMMine == null){
-                    mFMMine = new MyFragment();
-                }
-                transaction.replace(R.id.true_main_frame, mFMMine);
-                break;
-            default:
-                break;
-        }
-        transaction.commit();
+    public View getMenuItem(int imgID, String textID){
+        LinearLayout ll = (LinearLayout) LayoutInflater.from(mContext).inflate(R.layout.tab_item, null);
+        ImageView imgView = (ImageView)ll.findViewById(R.id.icon);
+        imgView.setBackgroundResource(imgID);
+        TextView textView = (TextView)ll.findViewById(R.id.name);
+        textView.setText(textID);
+        menuItemList.add(ll);
+        return ll;
     }
+
+
 }
