@@ -1,49 +1,44 @@
 package com.example.send;
 
 import android.app.Activity;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RadioGroup;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by root on 15-12-7.
  */
-public class TrueMainActivity extends Activity implements View.OnClickListener{
-    private ContactsFragment mFMContacts = null;
-    private MyFragment mFMMine = null;
+public class TrueMainActivity extends FragmentActivity{
+    private List<Fragment> fragments;
     private SharedPreferences mShared;
-    private Button mShowContacts;
-    private Button mShowMine;
+    private RadioGroup mRgs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.true_main);
-        mShowContacts = (Button)findViewById(R.id.bt_show_contacts);
-        mShowMine = (Button)findViewById(R.id.bt_show_my);
-
-        mShowContacts.setOnClickListener(this);
-        mShowMine.setOnClickListener(this);
+        mRgs = (RadioGroup)findViewById(R.id.liner_bottom_radio);
+        fragments = new ArrayList<>();
+        fragments.add(new ContactsFragment());
+        fragments.add(new MyFragment());
         startService(new Intent(ContactsService.ACTION_NAME));
         init();
-        setDefaultFragment();
+        FragmentTabAdapter tabAdapter = new FragmentTabAdapter(this, fragments, R.id.true_main_frame, mRgs);
+        tabAdapter.setOnRgsExtraCheckedChangedListener(new FragmentTabAdapter.OnRgsExtraCheckedChangedListener());
     }
 
-    private void setDefaultFragment()
-    {
-        FragmentManager fm = getFragmentManager();
-        FragmentTransaction transaction = fm.beginTransaction();
-        mFMContacts = new ContactsFragment();
-        transaction.replace(R.id.true_main_frame, mFMContacts);
-        transaction.commit();
-    }
+
     private void init(){
         mShared = getSharedPreferences(KeyWord.SHARED_MAIN, Context.MODE_PRIVATE);
         boolean hasFirst = mShared.getBoolean(KeyWord.IS_FIRST, false);
@@ -61,26 +56,4 @@ public class TrueMainActivity extends Activity implements View.OnClickListener{
         }
     }
 
-    @Override
-    public void onClick(View v) {
-        FragmentManager fm = getFragmentManager();
-        FragmentTransaction transaction = fm.beginTransaction();
-        switch(v.getId()){
-            case R.id.bt_show_contacts:
-                if (mFMContacts == null){
-                    mFMContacts = new ContactsFragment();
-                }
-                transaction.replace(R.id.true_main_frame, mFMContacts);
-                break;
-            case R.id.bt_show_my:
-                if (mFMMine == null){
-                    mFMMine = new MyFragment();
-                }
-                transaction.replace(R.id.true_main_frame, mFMMine);
-                break;
-            default:
-                break;
-        }
-        transaction.commit();
-    }
 }

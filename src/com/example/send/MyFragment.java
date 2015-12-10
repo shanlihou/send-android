@@ -1,12 +1,12 @@
 package com.example.send;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,7 +20,7 @@ import org.json.JSONTokener;
 /**
  * Created by root on 15-12-8.
  */
-public class MyFragment extends Fragment{
+public class MyFragment extends Fragment {
     private Button mBtLoginOut = null;
     private Runnable mLoginOutRun = null;
     private Handler mHandler = null;

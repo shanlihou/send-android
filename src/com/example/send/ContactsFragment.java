@@ -1,13 +1,13 @@
 package com.example.send;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.PixelFormat;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -23,7 +23,7 @@ import android.widget.TextView;
 /**
  * Created by root on 15-12-7.
  */
-public class ContactsFragment extends Fragment{
+public class ContactsFragment extends Fragment {
     private TextView mTopLetter = null;
     private EditText mEditSearch = null;
     private MyLetterListView myLetterListView;
@@ -37,11 +37,13 @@ public class ContactsFragment extends Fragment{
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
+        Log.d("shanlihou", "on attach view");
         mContext = activity;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        Log.d("shanlihou", "on create view");
         View view = inflater.inflate(R.layout.contacts, container, false);
         mWindowManager = (WindowManager)mContext.getSystemService(Context.WINDOW_SERVICE);
         initOverlay();

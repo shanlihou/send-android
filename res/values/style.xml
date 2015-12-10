@@ -4,9 +4,13 @@
     <style name="appTheme"
             >
         <item name="android:windowNoTitle">true</item>
-        <item name="android:windowBackground">@color/background</item>
+        <item name="android:windowBackground">@color/white</item>
     </style>
-    <style name="trueMainButton">
+    <style name="trueMainRadio">
+        <item name="android:button">@null</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_weight">1.0</item>
+        <item name="android:textColor">@drawable/radio_select</item>
 
     </style>
 </resources>
